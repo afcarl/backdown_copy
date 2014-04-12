@@ -14,7 +14,7 @@ if 'MONGOHQ_URL' in os.environ:
 else:
 	db = pymongo.MongoClient().backdown
 
-if 1:
+if 0:
     db.users.remove({})
     db.chunks.remove({})
 
