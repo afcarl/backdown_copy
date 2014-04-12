@@ -4,6 +4,7 @@ import random
 import flask
 import pymongo
 from bson.objectid import ObjectId as to_id
+from bson.binary import Binary
 
 @app.route('/sign_up', methods=['POST'])
 def sign_up():
@@ -45,7 +46,7 @@ def chunks_to_upload():
 @app.route('/upload_chunk/<id>', methods=['POST'])
 def upload(id):
     chunk = db.chunks.find_one({"_id": to_id(id)})
-    chunk['data'] = flask.request.data
+    chunk['data'] = Binary(flask.request.data)
     db.chunks.save(chunk)
     return json.dumps({"result": "okay"})
 

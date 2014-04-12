@@ -14,7 +14,7 @@ def postjson(endpoint, payload):
 alice = postjson('/sign_up', {})
 bob = postjson('/sign_up', {})
 
-alice_chunks = {"c1": "Hello, world", "c2": "Goodnight, moon"}
+alice_chunks = {"c1": open('test_binary.png').read(), "c2": "Goodnight, moon"}
 
 def withuser(user, params):
     np = copy.copy(params)
@@ -43,7 +43,8 @@ def let_bob_download():
     if len(chunks)==0:
         return False
     assert chunks[0]['user']==alice['user']
-    res = r.post(root+'/download_chunk/'+chunks[0]['key'], data=json.dumps(withuser(bob, {})), headers={"Content-Type": "application/json"}).text
+    res = r.post(root+'/download_chunk/'+chunks[0]['key'], data=json.dumps(withuser(bob, {})), headers={"Content-Type": "application/json"}).content
+    print type(res)
     print res, 'vs', alice_chunks[chunks[0]['chunk_id']]  
     assert res == alice_chunks[chunks[0]['chunk_id']]    
     return True

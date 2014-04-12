@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<form method='POST'>
+	<p><em>You are <strong>{{ user }}</strong>!</em></p>
+<input placeholder='Sync dir' name='dir' value='{{ dir }}'/>
+<textarea name='friends'>{% for friend in friends %}{{ friend}}
+{% endfor %}
+</textarea>
+<input type='submit'/>
+</form>
