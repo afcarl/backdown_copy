@@ -15,6 +15,11 @@
 	</ul>
 </div>
 <div id='backup_progress'>
-	<p>Backup <strong>{{ backup_progress*100 }}%</strong> complete</p>
-	<p>Restore <strong>{{ restore_progress*100 }}%</strong> complete</p>
+	<div class='bar'>
+		<div style="width: {{backup_progress*100}}%">
+		</div> 
+		Backup <strong>{{ backup_progress*100 }}%</strong> complete</div>
+	<div class='bar'>
+		<div style="width: {{restore_progress*100}}%"></div>
+		Restore <strong>{{ restore_progress*100 }}%</strong> complete</div>
 </div>
