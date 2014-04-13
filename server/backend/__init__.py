@@ -10,7 +10,7 @@ def templ8(name, vars):
 	return env.get_template(name).render(vars)
 
 if 'MONGOHQ_URL' in os.environ:
-	db = pymongo.MongoClient(os.environ['MONGOHQ_URL']).app22686072
+	db = pymongo.MongoClient(os.environ['MONGOHQ_URL']).app24076387
 else:
 	db = pymongo.MongoClient().backdown
 
