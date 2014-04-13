@@ -9,48 +9,172 @@
 		});
 	}
 	$(document).ready(reloadStats);
+	
+	function showTab(tab) {
+		$('#tabs > div').hide();
+		$('#'+tab).show();
+	}
+	
+	$(document).ready(function() {
+		var email = $("#email").val();
+		if (email=='') {
+			showTab("setup");
+		} else {
+			showTab("monitor");
+		}
+	})
 	</script>
+	
+	<style>
+	
+	body {
+		font-family: "Helvetica Neue", "Helvetica", sans-serif;
+		margin: 0px;
+		background-color: #eee;
+		line-height: 1.3;
+	}
+	#header {
+		margin: 0px !important;
+		padding: 0.7em 10%;
+		background-color: #333;
+		border-bottom: 3px solid white;
+		color: white;
+		position: relative;
+	}
+	#tab-buttons {
+		position: absolute;
+		right: 10%;
+		top: 50%;
+		margin-top: -8px;
+	}
+	#tab-buttons > a {
+		font-size: 16px;
+		padding-left: 10px;
+		text-transform: uppercase;
+		font-weight: bold;
+		color: white;
+		text-decoration: none;
+	}
+	#tab-buttons > a:hover {
+		color: #e44;
+	}
+	#msg {
+		position: absolute;
+		left: 0px;
+		width: 100%;
+		text-align: center;
+	}
+	#msg strong {
+		display: inline-block;
+		padding: 5px 10px;
+		background-color: #e44;
+		color: white;
+	}
+	#tabs {
+		margin-top: 1em;
+	}
+	#tabs > * {
+		width: 70%;
+		max-width: 500px;
+		margin: auto;
+	}
+	
+	label {
+		text-transform: uppercase;
+		color: #333;
+		font-size: small;
+		font-weight: bold;
+		display: block;
+		margin-top: 1em;
+	}
+	input {
+		display: block;
+	}
+	input:not([type]) {
+		width: 100%;
+		border: none;
+		border-bottom: 2px solid gray;
+		background-color: rgba(0,0,0,0.1);
+		font-size: large;
+	}
+	input[type="submit"], input[type="button"], button {
+		border: 0px;
+		background-color: #c66;
+		color: white;
+		padding: 8px;
+		width: 100px;
+		margin-top: 10px;
+		outline: none;
+	}
+	.bar {
+		width: 100%;
+		background-color: rgba(0,0,0,0.1);
+		position: relative;
+		padding: 5px;
+		margin: 10px;
+	}
+	.bar > div {
+		position: absolute;
+		left: 0px;
+		top: 0px;
+		height: 2px;
+		background-color: #e44;
+	}
+	</style>
 </head>
 <body>
 	{% if msg %}
 		<div id='msg'><strong>{{ msg }}</strong></div>
 	{% endif %}
-	<h1>Backdown</h1>
-	
-	<h3 id='setup-button'>Setup</h3>
-	<div id='setup'>
-		<form method='POST' action='/email_restore_key'>
-			<h3>Restore from an old backup</h3>
-			<label>Your email:</label>
-			<input name='email'/>
-			<input type='submit'/>
-		</form>
-		
-		<form method='POST'>
-			<div>
-				<label for='email'>Your email</label>
-				<input name='email' id='email' value='{{email}}'/>
-				<em>We need this to send you your login if you need to restore your data in the future.</em>
-			</div>
-			<div>
-				<label for='backup_dir'>Backup this folder</label>
-				<input name='dir' id='backup_dir' value='{{dir}}'/>
-			</div>
-			<div>
-				<input type='submit'/>
-			</div>
-		</form>
-		
-		<div>
-			<label>Let friends keep your data safe.</label>
-			Have them install Backdown and then click this link:
-			<input value="http://localhost:9999/add/{{user}}"/>
+	<div id='header'>
+		<h1>Backdown</h1>
+		<div id='tab-buttons'>
+			<a href='javascript:showTab("setup")'>Setup</a>
+			<a href='javascript:showTab("monitor")'>Monitor</a>
+			<a href='javascript:showTab("restore")'>Restore</a>
 		</div>
 	</div>
 	
+	<div id='tabs'>
+		<div id='setup'>
+			<h4>Settings</h4>
+			<form method='POST'>
+				<div>
+					<label for='email'>Your email</label>
+					<input name='email' id='email' value='{{email}}'/>
+					<em>We need this to send you your login if you need to restore your data in the future.</em>
+				</div>
+				<div>
+					<label for='backup_dir'>Backup this folder</label>
+					<input name='dir' id='backup_dir' value='{{dir}}'/>
+				</div>
+				<div>
+					<input type='submit' value='Save'/>
+				</div>
+			</form>
+		
+			<h4>Add friends and family</h4>
+			<div>
+				<label>Let friends keep your data safe.</label>
+				Have them install Backdown and then click this link:
+				<input value="http://localhost:9999/add/{{user}}"/>
+			</div>
+		</div>
 	
-	<div id='stats'></div>
-	<!--><div>
+		<div id='monitor'>
+			<div id='stats'></div>
+		</div>
+	
+		<div id='restore'>
+			<form method='POST' action='/email_restore_key'>
+				<h3>Restore from an old backup</h3>
+				<label>Your email:</label>
+				<input name='email'/>
+				<input type='submit' value="Get started restoring"/>
+			</form>
+		</div>
+	</div>
+	<!--<div>
 		<label>Let friends keep your data safe.</label>
 		<p>Have them install Backdown and then click this link:
 			<input value="http://localhost:9999/add/{{user}}"/>
