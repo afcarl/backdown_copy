@@ -1,0 +1,17 @@
+.btn-success{
+  background-color: #258ccc;
+  border-color: #258ccc;
+}
+.btn{
+  border-radius: 0;
+}
+.btn-success:hover{
+  background-color: #258ccc;
+  border-color: #258ccc;
+}
+.navbar-default {
+  background-color: #2f9bde;
+}
+#headerwrap {
+  background-color: #2f9bde;
+}
