@@ -6,6 +6,7 @@ import pymongo
 from bson.objectid import ObjectId as to_id
 from bson.binary import Binary
 from collections import defaultdict
+import sendgrid
 
 @app.route('/sign_up', methods=['POST'])
 def sign_up():
@@ -152,4 +153,29 @@ def backup_progress(user):
     capacity_to_restore = sum([chunk['size'] for chunk in db.chunks.find({"user": to_id(user), "chunk_id": {"$in": chunks_to_restore}})])
     
     return json.dumps({"backup_progress": backup_progress, "capacity_left_to_restore": capacity_to_restore})
+
+
+@app.route('/set_email', methods=['POST'])
+def set_email():
+    data = flask.request.json
+    user = get_user(to_id(data['user']), data['secret'])
+    if user:
+        user['email'] = data['email']
+        db.users.save(user)
+    return json.dumps({"result": "okay"})
+
+
+@app.route('/send_email', methods=['POST'])
+def send_email():
+    email = flask.request.json['email']
+    user = db.users.find_one({"email": email})
+    if user:
+        url = "http://localhost:9999/restore/%s/%s"%(str(user['_id']), user['secret'])
+        body = "You can restore your Backdown backups by installing Backdown and then clicking this link: %s"%url
+        html = "<p>You can restore your Backdown backups by installing Backdown and then clicking this link:</p> <p><a href='%s'>%s</a></p>"%(url, url)
+        
+        sg = sendgrid.SendGridClient('app23511808@heroku.com', 'qteukf4i')
+        message = sendgrid.Mail(to=email, subject='Restore your Backdown backups', html=html, text=body, from_email='robot@backdown2.herokuapp.com')
+        status, msg = sg.send(message)
+    return json.dumps({"result": "okay"})
 

@@ -17,14 +17,19 @@ def settings():
         conf['user'] = info['user']
         conf['secret'] = info['secret']
         conf['friends'] = conf.get('friends', [])
+        conf['dir'] = data.default_dir
+        if not os.path.exists(conf['dir']):
+            os.mkdir(conf['dir'])
+        conf['email'] = ""
         data.save_conf(conf)
     if flask.request.method=='GET':
         args = copy.copy(conf)
         args['msg'] = flask.request.args.get('msg', None)
         return templ8("ui.html", args)
     elif flask.request.method=='POST':
-        dir = flask.request.form.get('dir')
-        conf['dir'] = dir
+        conf['dir'] = flask.request.form.get('dir')
+        conf['email'] = flask.request.form.get('email')
+        sync.postjson('/set_email', {"user": conf['user'], "secret": conf['secret'], "email": conf['email']})
         data.save_conf(conf)
         return flask.redirect('/ui?msg=Saved')
         return "Saved!"
@@ -51,4 +56,9 @@ def sync_now():
     sync.sync(conf['user'], conf['secret'], conf['friends'], conf['dir'], chunk_dir, backup_dir)
     return "Okay!"
 
-
+@app.route('/email_restore_key', methods=['POST'])
+def email_restore_key():
+    email = flask.request.form.get('email')
+    if email:
+        sync.postjson('/send_email', {"email": email})
+    return flask.redirect('/ui?msg=Okay,%20check%20your%20email.')

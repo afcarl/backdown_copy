@@ -1,3 +1,6 @@
+# cd into main directory and run:
+# git subtree push --prefix server heroku master
+
 import os
 from flask import Flask
 import pymongo

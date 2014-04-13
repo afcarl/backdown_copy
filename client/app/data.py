@@ -7,6 +7,7 @@ conf_lock = threading.Lock()
 
 port = int(sys.argv[1]) if len(sys.argv) > 1 else 9999
 data_dir = "data_"+str(port)
+default_dir = os.path.expanduser("~/Desktop/Backdown")
 if not os.path.exists(data_dir):
     os.mkdir(data_dir)
 conf_path = os.path.join(data_dir, 'conf.json')
