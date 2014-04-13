@@ -16,6 +16,7 @@
 	}
 	
 	$(document).ready(function() {
+				
 		var email = $("#email").val();
 		if (email=='') {
 			showTab("setup");
@@ -31,6 +32,7 @@
 	</script>
 	
 	<style>
+	@import url(http://fonts.googleapis.com/css?family=Doppio+One);
 	
 	body {
 		font-family: "Helvetica Neue", "Helvetica", sans-serif;
@@ -45,6 +47,9 @@
 		border-bottom: 3px solid white;
 		color: white;
 		position: relative;
+	}
+	#header h1 {
+		font-family: "Doppio One";
 	}
 	#tab-buttons {
 		position: absolute;
@@ -68,6 +73,7 @@
 		left: 0px;
 		width: 100%;
 		text-align: center;
+		z-index: 10;
 	}
 	#msg strong {
 		display: inline-block;

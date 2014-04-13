@@ -5,6 +5,9 @@
 			<strong>{{ friend.name }}</strong> gave you <strong>{{ friend.capacity/1000 }} KB</strong> of files to back up.
 		{% endfor %}
 	</ul>
+	{% if exporters.length==0 %}
+	<em>no one yet</em>
+	{% endif %}
 </div>
 <div id='exportees'>
 	<label>These computers are holding your backups</label>
@@ -13,6 +16,9 @@
 			<strong>{{ friend.name }}</strong> is backing up <strong>{{ friend.capacity/1000 }} KB</strong> of your files.
 		{% endfor %}
 	</ul>
+	{% if exportees.length==0 %}
+	<em>no one yet</em>
+	{% endif %}
 </div>
 <div id='backup_progress'>
 	<div class='bar'>
