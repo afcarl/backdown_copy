@@ -39,7 +39,7 @@ def chunkify(input_dirs, key, output_dir):
 	chunker = chunk_maker.chunk_maker(10, key, output_dir)
 	for input_dir in input_dirs:
 		for filepath in get_filepaths(input_dir):
-			chunker.make_chunk(filepath)
+			chunker.make_chunk(input_dir, filepath)
 
 	#check the new list of files against the old and get the differences
 	new_list = set(os.listdir(output_dir))

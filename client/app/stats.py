@@ -28,7 +28,7 @@ def capacity_for_friend(id):
 @app.route('/stats')
 def stats():
     conf = data.get_conf()
-    if 'user' not in conf:
+    if 'user' not in conf or 'dir' not in conf:
         return ""
     
     info = {}
@@ -37,7 +37,12 @@ def stats():
     
     info['exporters'] = [{"name": get_friend_name(id), "capacity": capacity_for_friend(id)} for id in conf['friends'] if len(id)>0]
     
-    progress = requests.get(sync.root+'/backup_progress/'+conf['user']).json()['backup_progress']
-    info['backup_progress'] = progress 
+    progress = requests.get(sync.root+'/backup_progress/'+conf['user']).json()
+    
+    info['backup_progress'] = progress['backup_progress']
+    
+    data_size = size_for_dir(conf['dir'])
+    remaining_to_restore = progress['capacity_left_to_restore']
+    info['restore_progress'] = 1-remaining_to_restore*1.0/(data_size+remaining_to_restore) if (data_size+remaining_to_restore) else 0
     
     return templ8("stats.html", info)

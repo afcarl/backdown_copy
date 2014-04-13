@@ -4,6 +4,8 @@ import chunkify
 import json
 import threading
 import time
+import StringIO
+import zipfile
 
 root = 'http://localhost:5000'
 
@@ -60,7 +62,9 @@ def sync(user, secret, friends, user_dir, chunk_dir, backup_dir):
         did_anything = True
         data = r.post(root+'/download_chunk/'+chunk['key'], data=json.dumps({"user": user, "secret": secret}), headers={"Content-Type": "application/json"}).content
         path = os.path.join(user_dir, chunk['chunk_id'])
-        open(path, 'wb').write(data) # TODO: unchunk
+        #open(path, 'wb').write(data)
+        archive = zipfile.ZipFile(StringIO.StringIO(data))
+        archive.extractall(user_dir)
     
     # try uploading any files that need to be restored:
     files_to_restore = postjson('/files_to_restore', {"user": user, "secret": secret, "friends": friends})['chunks']

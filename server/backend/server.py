@@ -126,7 +126,7 @@ def files_to_restore():
 def get_restorable_chunks():
     data = flask.request.json
     user = db.users.find_one({"_id": to_id(data['user'])})
-    chunks = db.chunks.find({"user": to_id(data['user']), "chunk_id": {"$in": user['chunks_to_restore']}})
+    chunks = db.chunks.find({"user": to_id(data['user']), "chunk_id": {"$in": user['chunks_to_restore']}, "data": {"$ne": None}})
     chunks = [{"chunk_id": chunk['chunk_id'], "key": str(chunk['_id'])} for chunk in chunks]
     return json.dumps({"chunks": chunks})
 
@@ -146,5 +146,10 @@ def export_breakdown(user):
 @app.route('/backup_progress/<user>')
 def backup_progress(user):
     chunks = list(db.chunks.find({"user": to_id(user), "alive": True}))
-    progress = len([chunk for chunk in chunks if len(chunk['mirrors'])>0])*1.0/len(chunks)
-    return json.dumps({"backup_progress": progress})
+    backup_progress = len([chunk for chunk in chunks if len(chunk['mirrors'])>0])*1.0/len(chunks) if len(chunks) else 1
+    
+    chunks_to_restore = db.users.find_one({"_id": to_id(user)})['chunks_to_restore']
+    capacity_to_restore = sum([chunk['size'] for chunk in db.chunks.find({"user": to_id(user), "chunk_id": {"$in": chunks_to_restore}})])
+    
+    return json.dumps({"backup_progress": backup_progress, "capacity_left_to_restore": capacity_to_restore})
+
