@@ -41,13 +41,43 @@ $(document).ready(function(){
 
   var currScatter;
   $(function () {
-    $('#scatter').on("click", function (e) {
+    $('#scatter1').on("click", function (e) {
+      console.log(currScatter);
       if(currScatter){
-        $(currScatter).remove('.highlight');
+        console.log(currScatter);
+        $(currScatter).removeClass('highlight');
       }
       console.log("hi");
       console.log(this);
-      $(this).addClass('.highlight');
+      $(this).addClass('highlight');
+      currScatter = "#scatter1";
+    });
+    $('#scatter2').on("click", function (e) {
+      if(currScatter){
+        $(currScatter).removeClass('highlight');
+      }
+      console.log("hi");
+      console.log(this);
+      $(this).addClass('highlight');
+      currScatter = "#scatter2";
+    });
+    $('#scatter3').on("click", function (e) {
+      if(currScatter){
+        $(currScatter).removeClass('highlight');
+      }
+      console.log("hi");
+      console.log(this);
+      $(this).addClass('highlight');
+      currScatter = "#scatter3";
+    });
+    $('#scatter4').on("click", function (e) {
+      if(currScatter){
+        $(currScatter).removeClass('highlight');
+      }
+      console.log("hi");
+      console.log(this);
+      $(this).addClass('highlight');
+      currScatter = "#scatter4";
     });
   });
 
