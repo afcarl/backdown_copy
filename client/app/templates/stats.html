@@ -1,0 +1,19 @@
+<div id='exporters'>
+	<label>You're backing up files for</label>
+	<ul>
+	 	{% for friend in exporters %}
+			<strong>{{ friend.name }}</strong> gave you <strong>{{ friend.capacity/1000 }} KB</strong> of files to back up.
+		{% endfor %}
+	</ul>
+</div>
+<div id='exportees'>
+	<label>These computers are holding your backups</label>
+	<ul>
+		{% for friend in exportees %}
+			<strong>{{ friend.name }}</strong> is backing up <strong>{{ friend.capacity/1000 }} KB</strong> of your files.
+		{% endfor %}
+	</ul>
+</div>
+<div id='backup_progress'>
+	Backup <strong>{{ backup_progress*100 }}%</strong> complete
+</div>

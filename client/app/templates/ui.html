@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<script>
+	function reloadStats() {
+		$('#stats').load('/stats', function() {
+			setTimeout(reloadStats, 1000);
+		});
+	}
+	$(document).ready(reloadStats);
+	</script>
+</head>
+<body>
+	{% if msg %}
+		<div id='msg'><strong>{{ msg }}</strong></div>
+	{% endif %}
+	<h1>Backdown</h1>
+	<form method='POST'>
+		<div>
+			<label for='backup_dir'>Backup this folder</label>
+			<input name='dir' id='backup_dir' value='{{dir}}'/>
+		</div>
+		<div>
+			<input type='submit'/>
+		</div>
+	</form>
+	<div id='stats'></div>
+	<div>
+		<label>Let friends keep your data safe.</label>
+		<p>Have them install Backdown and then click this link:
+			<input value="http://localhost:9999/add/{{user}}"/>
+		</p>
+		<label>If you ever need to restore your backup</label>
+		<p>you can do it by installing Backdown again and clicking this link:
+		<input value="http://localhost:9999/restore/{{user}}/{{secret}}"/>
+		</p>
+	</div>
+</body>
+</html>
