@@ -22,6 +22,11 @@
 		} else {
 			showTab("monitor");
 		}
+		
+		$('#invite').click(function() {
+			$('#invite-field').show();
+			$('#invite-field text').focus().select();
+		})
 	})
 	</script>
 	
@@ -155,9 +160,12 @@
 		
 			<h4>Add friends and family</h4>
 			<div>
-				<label>Let friends keep your data safe.</label>
-				Have them install Backdown and then click this link:
-				<input value="http://localhost:9999/add/{{user}}"/>
+				<p>Let friends keep your data safe. Encrypt and store it in the empty corners of their computers in case you lose it.</p>
+				<button id='invite' style='width: 200px'>Invite people to back you up</button>
+				<div id='invite-field' style="display:none">
+					<em>Have them install Backdown and click the link:</em>
+					<input onclick="this.select()" value="http://localhost:9999/add/{{user}}"/>
+				</div>
 			</div>
 		</div>
 	
