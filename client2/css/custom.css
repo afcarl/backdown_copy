@@ -36,7 +36,7 @@
 }
 
 .jumbotron img{
-  padding-right: 10px;
+  margin-right: 7px;
 }
 
 .jumbotron .btn{
@@ -247,7 +247,7 @@ sup{
 }
 
 .sharing {
-  padding-left: 40px;
+/*  padding-left: 40px;*/
 }
 
 .h-inline{
@@ -257,14 +257,16 @@ sup{
 }
 
 .blue-well {
-  margin-left: 40px;
-  margin-right: 40px;
+/*  margin-left: 40px;
+  margin-right: 40px;*/
   background-color: #51ace0;
 }
 
 .blue-well .progress{
   border-radius: 0;
-  border-width: 3px;
+  border-width: 2px;
+  height: 22px;
+  border-style: solid;
   border-color: white;
   margin-left: -19px;
   margin-right: -19px;
@@ -272,10 +274,13 @@ sup{
 
 .blue-boxes{
   text-align: center;
+  margin-bottom: 10px;
+/*  margin-left: 22px;
+  margin-right: 20px;*/
 }
 
 .blue-boxes img{
-  padding: 10px 10px;
+  padding: 14px 14px;
 }
 
 .white-notice{
