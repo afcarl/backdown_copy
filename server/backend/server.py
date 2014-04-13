@@ -141,7 +141,7 @@ def export_breakdown(user):
     export_capacities = defaultdict(int)
     for chunk in chunks_exported:
         export_capacities[chunk['user']] += chunk['size']
-    export_capacities = [{"name": name_for_user(id), "capacity": capacity} for id, capacity in export_capacities.iteritems()]
+    export_capacities = [{"name": json.loads(name_for_user(id))['name'], "capacity": capacity} for id, capacity in export_capacities.iteritems()]
     return json.dumps({"export_capacities": export_capacities})
 
 @app.route('/backup_progress/<user>')
